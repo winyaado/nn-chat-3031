@@ -7,6 +7,10 @@ test('チャットメッセージに含まれる HTML タグがエスケープ�
   const html = pug.renderFile(
     './views/posts.pug',
     {
+      board: {
+        id: 1,
+        name: 'メイン',
+      },
       posts: [
         {
           id: 1,

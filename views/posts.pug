@@ -8,12 +8,14 @@ html(lang="ja")
       crossorigin="anonymous")
     link(rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css")
-    link(rel="stylesheet" href="style.css")
-    title NNチャット
+    link(rel="stylesheet" href="/style.css")
+    title #{board.name} - NNチャット
   body.container.overflow-scroll(data-bs-theme=currentTheme)
     nav.navbar.fixed-top.bg-primary
       div.container-fluid
-        h1.text-light.navbar-brand.mx-auto NNチャット
+        a.btn.btn-outline-light.btn-sm(href="/boards")
+          i.bi-list
+        h1.text-light.navbar-brand.mx-auto #{board.name}
           i.bi-chat-dots-fill.ms-1
         div.dropdown
           button.btn.btn-outline-light.dropdown-toggle(type="button" id="menu" data-bs-toggle="dropdown" aria-expanded="false") #{user}
@@ -39,13 +41,13 @@ html(lang="ja")
         - const isDeletable = (user === post.postedBy || user === 'admin')
         if isDeletable
           div.card-footer.d-flex.justify-content-end
-            form(method="post" action="/posts/delete")
+            form(method="post" action=`/boards/${board.id}/posts/delete`)
               input(type="hidden" name="id" value=post.id)
               input(type="hidden" name="oneTimeToken" value=oneTimeToken)
-              button(type="submit").btn.btn-outline-danger.btn-sm
+              button(type="submit" data-confirm="この投稿を削除しますか？").btn.btn-outline-danger.btn-sm
                 i.bi-trash
     div.fixed-bottom.p-4.bg-body
-      form(method="post" action="/posts" name="message-form").container-fluid.row.g-3
+      form(method="post" action=`/boards/${board.id}/posts` name="message-form").container-fluid.row.g-3
         div.col-12
           textarea(name="content" rows="4" placeholder="Ctrl(Command)+Enterで送信できます").form-control
           input(type="hidden" name="oneTimeToken" value=oneTimeToken)
@@ -56,4 +58,4 @@ html(lang="ja")
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
       integrity="sha256-qlPVgvl+tZTCpcxYJFdHB/m6mDe84wRr+l81VoYPTgQ="
       crossorigin="anonymous")
-    script(src="nn-chat.js")
+    script(src="/nn-chat.js")

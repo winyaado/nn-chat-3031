@@ -15,4 +15,15 @@ model Post {
   content   String
   postedBy  String   @db.VarChar(255)
   createdAt DateTime @db.Timestamptz(6) @default(now())
+  boardId   Int?
+  board     Board?   @relation(fields: [boardId], references: [id])
+}
+
+model Board {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique @db.VarChar(50)
+  createdBy String    @db.VarChar(255)
+  createdAt DateTime  @db.Timestamptz(6) @default(now())
+  deletedAt DateTime? @db.Timestamptz(6)
+  posts     Post[]
 }

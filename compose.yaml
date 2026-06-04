@@ -2,6 +2,7 @@ services:
   app:
     build: .
     tty: true
+    command: sh -lc "npm install && npx prisma generate && until npx prisma db push; do sleep 2; done && node index.js"
     ports:
       - 8000:8000
     volumes:
