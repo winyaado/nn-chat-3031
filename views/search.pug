@@ -1,0 +1,53 @@
+doctype html
+html(lang="ja")
+  head
+    meta(charset="UTF-8")
+    link(rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      integrity="sha256-fx038NkLY4U1TCrBDiu5FWPEa9eiZu01EiLryshJbCo="
+      crossorigin="anonymous")
+    link(rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css")
+    link(rel="stylesheet" href="/style.css")
+    title 検索結果 - NNチャット
+  body.container(data-bs-theme=currentTheme)
+    nav.navbar.fixed-top.bg-primary
+      div.container-fluid
+        a.btn.btn-outline-light.btn-sm(href=backUrl)
+          i.bi-arrow-left
+        h1.text-light.navbar-brand.mx-auto 検索結果
+          i.bi-search.ms-1
+        div.dropdown
+          button.btn.btn-outline-light.dropdown-toggle(type="button" id="menu" data-bs-toggle="dropdown" aria-expanded="false") #{user}
+            i.bi-gear-fill.ms-1
+          ul.dropdown-menu.dropdown-menu-end(aria-labelledby="menu")
+            li
+              - const changeThemeText = (currentTheme === 'light' ? 'ダークモードに切り替え' : 'ライトモードに切り替え');
+              a.dropdown-item(href="/changeTheme") #{changeThemeText}
+              a.dropdown-item(href="/logout") ログアウト
+
+    form(method="get" action=(board ? `/boards/${board.id}/search` : '/search')).row.g-2.mb-4
+      div.col
+        input.form-control(type="search" name="q" value=keyword required placeholder="検索キーワード")
+      div.col-auto
+        button.btn.btn-primary(type="submit")
+          i.bi-search
+
+    p.text-body-secondary #{board ? `${board.name} の検索結果` : 'すべての投稿の検索結果'}: #{results.length}件
+
+    each post in results
+      div.card.my-3
+        div.card-body
+          div.d-flex.justify-content-between
+            div
+              h5.card-title.mb-1 #{post.postedBy}
+              small.text-body-secondary #{post.board.name}
+            a.small(href=`/boards/${post.board.id}/posts#post-${post.id}`) ##{post.id}
+          p.card-text.lead.post-content #{post.content}
+    if results.length === 0
+      p.text-body-secondary 該当する投稿はありません。
+
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha256-qlPVgvl+tZTCpcxYJFdHB/m6mDe84wRr+l81VoYPTgQ="
+      crossorigin="anonymous")
+    script(src="/nn-chat.js")
