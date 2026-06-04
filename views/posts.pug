@@ -25,15 +25,17 @@ html(lang="ja")
               a.dropdown-item(href="/logout") ログアウト
     each post in posts
       - const cardClass = (user === post.postedBy ? 'card my-3 border-primary' : 'card my-3')
-      div(class=cardClass)
+      div(class=cardClass id=`post-${post.id}`)
         div.card-body
           div.d-flex.justify-content-between
             h5.card-title #{post.postedBy}
               if post.postedBy === 'admin'
                 i.bi-patch-check-fill.ms-1
-            - const tooltipTitle = `<small>${post.absoluteCreatedAt}</small>`
-            small.card-text.float-end(data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title=tooltipTitle) #{post.relativeCreatedAt}
-          p.card-text.lead #{post.content}
+            div.text-end
+              - const tooltipTitle = `<small>${post.absoluteCreatedAt}</small>`
+              small.card-text.d-block(data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title=tooltipTitle) #{post.relativeCreatedAt}
+              a.post-anchor.small(href=`#post-${post.id}` data-post-id=post.id) ##{post.id}
+          p.card-text.lead.post-content #{post.content}
         - const isDeletable = (user === post.postedBy || user === 'admin')
         if isDeletable
           div.card-footer.d-flex.justify-content-end
