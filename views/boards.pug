@@ -24,6 +24,13 @@ html(lang="ja")
               a.dropdown-item(href="/changeTheme") #{changeThemeText}
               a.dropdown-item(href="/logout") ログアウト
 
+    form(method="get" action="/search").row.g-2.mb-4
+      div.col
+        input.form-control(type="search" name="q" required placeholder="すべての投稿を検索")
+      div.col-auto
+        button.btn.btn-outline-primary(type="submit")
+          i.bi-search
+
     form(method="post" action="/boards/create").row.g-2.mb-4
       div.col
         input.form-control(type="text" name="name" maxlength="50" required placeholder="板名")
